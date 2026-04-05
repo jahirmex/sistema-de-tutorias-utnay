@@ -56,3 +56,139 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# 🎓 Sistema de Tutorías (Laravel)
+
+Sistema web desarrollado para la gestión de tutorías académicas entre alumnos, tutores y coordinadores.
+
+---
+
+## 🚀 Descripción
+
+Este sistema permite administrar de forma eficiente las tutorías académicas dentro de una institución, facilitando la comunicación, seguimiento y control del desempeño de los alumnos.
+
+Cuenta con autenticación, control de roles y dashboards personalizados para cada tipo de usuario.
+
+---
+
+## 👥 Roles del sistema
+
+### 👨‍🎓 Alumno
+- Ver sus tutorías
+- Solicitar nuevas tutorías
+- Consultar su tutor asignado
+- Visualizar su rendimiento académico
+
+### 👨‍🏫 Tutor
+- Gestionar alumnos asignados
+- Crear, editar y completar tutorías
+- Consultar historial de sesiones
+- Administrar su horario
+
+### 🧑‍💼 Coordinador
+- Administrar alumnos y tutores
+- Generar reportes
+- Supervisar el sistema completo
+
+---
+
+## ✨ Funcionalidades principales
+
+- 🔐 Autenticación de usuarios
+- 🧠 Sistema de roles (alumno, tutor, coordinador)
+- 📊 Dashboard dinámico por rol
+- 📅 Gestión completa de tutorías
+- 🔔 Interfaz con notificaciones
+- 🎨 UI moderna con Bootstrap 5
+- ⚡ Sidebar dinámico y colapsable
+
+---
+
+## 📸 Capturas del sistema
+
+### 🔐 Login
+![Login](screenshots/captura_login.png)
+
+### 👨‍🎓 Panel Alumno
+![Panel Alumno](screenshots/captura_panelAlumno.png)
+
+### 🧑‍💼 Panel Coordinador
+![Panel Coordinador](screenshots/captura_panelCoordi.png)
+
+### 👨‍🏫 Panel Tutor
+![Panel Tutor](screenshots/captura_panelTutor.png)
+
+### 📅 Gestión de Tutorías (Tutor)
+![Tutorías Tutor](screenshots/captura_tutoriasTutor.png)
+
+---
+
+## 🛠️ Tecnologías utilizadas
+
+- Laravel
+- PHP
+- MySQL
+- Bootstrap 5
+- JavaScript (Vanilla + SweetAlert2)
+
+---
+
+## ⚙️ Instalación
+
+```bash
+git clone https://github.com/tu-usuario/sistema-tutorias-laravel.git
+cd sistema-tutorias-laravel
+
+composer install
+cp .env.example .env
+php artisan key:generate
+
+# Configura tu base de datos en .env
+
+php artisan migrate
+php artisan serve
+```
+
+---
+
+## 🔑 Credenciales de prueba
+
+```
+Alumno:
+alumno@test.com
+12345678
+
+Tutor:
+tutor@test.com
+12345678
+
+Coordinador:
+coordinador@test.com
+12345678
+```
+
+---
+
+## 🔐 Seguridad
+
+- Middleware por roles
+- Protección de rutas
+- Control de acceso por tipo de usuario
+
+---
+
+## 📈 Estado del proyecto
+
+🟢 En desarrollo activo
+
+---
+
+## 💼 Autor
+
+Desarrollado por Jahir García 🚀
+
+---
+
+## ⭐ Si te gustó
+
+No olvides dejar una estrella en el repositorio 🙌
