@@ -61,7 +61,7 @@
 
                 <div class="mt-4 d-flex justify-content-between">
 
-                    <a href="{{ route('alumnos.index') }}" class="btn btn-outline-secondary rounded-3">
+                    <a href="{{ route('coordinador.alumnos') }}" class="btn btn-outline-secondary rounded-3">
                         ← Volver
                     </a>
 

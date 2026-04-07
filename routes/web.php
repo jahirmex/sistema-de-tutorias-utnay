@@ -27,9 +27,9 @@ Route::get('/dashboard', function () {
     $user = Auth::user();
 
     // Si es tutor
-    if (Tutor::where('user_id', $user->id)->exists()) {
-        return redirect('/tutor/dashboard');
-    }
+    if ($user->role === 'tutor') {
+        return redirect()->route('tutor.dashboard');
+    }   
 
     // Si es alumno
     if (\App\Models\Alumno::where('user_id', $user->id)->exists()) {
@@ -44,10 +44,8 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth'])->group(function () {
     // Perfil
     // Dashboard coordinador
-    Route::get('/coordinador/dashboard', [CoordinadorController::class, 'dashboard']);
-    // Dashboard Tutor
-    Route::get('/tutor/dashboard', [TutorDashboardController::class, 'index'])
-        ->name('tutor.dashboard');
+    Route::get('/coordinador/dashboard', [CoordinadorController::class, 'dashboard'])
+        ->name('coordinador.dashboard');
 
     // Tutor - Ver detalle de alumno
     Route::get('/tutor/alumnos/{id}', [TutorAlumnoController::class, 'show'])
@@ -86,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
     ->name('coordinador.alumnos.show');
 
     // Coordinador - Alumnos
-    Route::get('/coordinador/alumnos', [AlumnoController::class, 'index'])->name('alumnos.index');
+    Route::get('/coordinador/alumnos', [CoordinadorController::class, 'alumnos'])->name('coordinador.alumnos');
     Route::get('/coordinador/alumnos/create', [AlumnoController::class, 'create']);
     Route::post('/coordinador/alumnos', [AlumnoController::class, 'store'])->name('alumnos.store');
     Route::get('/coordinador/alumnos/{id}/edit', [AlumnoController::class, 'edit'])->name('alumnos.edit');

@@ -66,4 +66,38 @@ class CoordinadorController extends Controller
 
         return view('coordinador.alumnos.show', compact('alumno'));
     }
+
+    public function alumnos(Request $request)
+{
+    $grupo = $request->grupo;
+
+    $alumnos = Alumno::with(['user','grupo.tutor.user'])
+        ->when($grupo, function ($query) use ($grupo) {
+            $query->whereHas('grupo', function ($q) use ($grupo) {
+                $q->whereRaw('LOWER(nombre) = ?', [strtolower($grupo)]);
+            });
+        })
+        ->paginate(10)
+        ->withQueryString();
+
+    $grupos = Grupo::all();
+
+    // 🔥 ESTO ES LO QUE TE FALTABA
+    $totalAlumnos = Alumno::count();
+    $totalGrupos = Grupo::count();
+    $promedioGeneral = Alumno::avg('promedio') ?? 0;
+
+    $alumnosPorGrupo = Grupo::withCount('alumnos')
+        ->get()
+        ->pluck('alumnos_count', 'id');
+
+    return view('coordinador.alumnos', compact(
+        'alumnos',
+        'grupos',
+        'totalAlumnos',
+        'totalGrupos',
+        'promedioGeneral',
+        'alumnosPorGrupo'
+    ));
+}
 }

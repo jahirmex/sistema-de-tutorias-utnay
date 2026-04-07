@@ -14,6 +14,7 @@ return new class extends Migration
             Schema::create('tutorias', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('alumno_id')->constrained();
+                $table->foreignId('tutor_id')->nullable()->constrained();
                 $table->string('tema');
                 $table->text('descripcion');
                 $table->timestamp('fecha');

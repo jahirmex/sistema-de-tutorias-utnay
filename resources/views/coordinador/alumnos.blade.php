@@ -28,91 +28,49 @@
         </div>
     </div>
 
-    <!-- Tarjetas de estadísticas -->
-    <div class="row g-4 mb-4">
+    <!-- Tarjetas de estadísticas (nuevo diseño) -->
+    <div class="row g-3 mb-4">
+
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm hover-shadow transition" style="border-radius: 20px;">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="text-muted small text-uppercase fw-semibold mb-2">Total alumnos</div>
-                            <h2 class="fw-bold display-6 mb-0">{{ $totalAlumnos }}</h2>
-                        </div>
-                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
-                            <i class="bi bi-people-fill text-primary fs-4"></i>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <small class="text-muted">
-                            <i class="bi bi-mortarboard me-1"></i> Alumnos registrados
-                        </small>
-                    </div>
+            <div class="card p-3 d-flex flex-row align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small">Alumnos</div>
+                    <h4 class="fw-bold mb-0">{{ $totalAlumnos }}</h4>
                 </div>
+                <i class="bi bi-people fs-3 text-primary"></i>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm hover-shadow transition" style="border-radius: 20px;">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="text-muted small text-uppercase fw-semibold mb-2">Total grupos</div>
-                            <h2 class="fw-bold display-6 mb-0">{{ $totalGrupos }}</h2>
-                        </div>
-                        <div class="bg-success bg-opacity-10 rounded-circle p-3">
-                            <i class="bi bi-diagram-3 text-success fs-4"></i>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <small class="text-muted">
-                            <i class="bi bi-grid me-1"></i> Grupos académicos
-                        </small>
-                    </div>
+            <div class="card p-3 d-flex flex-row align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small">Grupos</div>
+                    <h4 class="fw-bold mb-0">{{ $totalGrupos }}</h4>
                 </div>
+                <i class="bi bi-diagram-3 fs-3 text-success"></i>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm hover-shadow transition" style="border-radius: 20px;">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="text-muted small text-uppercase fw-semibold mb-2">Promedio general</div>
-                            <h2 class="fw-bold display-6 mb-0">{{ number_format($promedioGeneral, 2) }}</h2>
-                        </div>
-                        <div class="bg-warning bg-opacity-10 rounded-circle p-3">
-                            <i class="bi bi-star-fill text-warning fs-4"></i>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <small class="text-muted">
-                            <i class="bi bi-graph-up me-1"></i> Calificación promedio
-                        </small>
-                    </div>
+            <div class="card p-3 d-flex flex-row align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small">Promedio</div>
+                    <h4 class="fw-bold mb-0">{{ number_format($promedioGeneral, 2) }}</h4>
                 </div>
+                <i class="bi bi-star fs-3 text-warning"></i>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm hover-shadow transition" style="border-radius: 20px;">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="text-muted small text-uppercase fw-semibold mb-2">Grupos activos</div>
-                            <h2 class="fw-bold display-6 mb-0">{{ count($alumnosPorGrupo) }}</h2>
-                        </div>
-                        <div class="bg-info bg-opacity-10 rounded-circle p-3">
-                            <i class="bi bi-check-circle-fill text-info fs-4"></i>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <small class="text-muted">
-                            <i class="bi bi-calendar-check me-1"></i> Con alumnos asignados
-                        </small>
-                    </div>
+            <div class="card p-3 d-flex flex-row align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small">Activos</div>
+                    <h4 class="fw-bold mb-0">{{ count($alumnosPorGrupo) }}</h4>
                 </div>
+                <i class="bi bi-check-circle fs-3 text-info"></i>
             </div>
         </div>
+
     </div>
 
     <div class="row g-4">
@@ -186,10 +144,10 @@
                                 </span>
                                 <input type="text" id="buscador" class="form-control border-start-0 rounded-end-pill" placeholder="Buscar por nombre, matrícula...">
                             </div>
-                            <select id="filterGroupTable" class="form-select rounded-pill" style="width: 150px;">
+                            <select id="filterGroupTable" onchange="filtrarGrupo(this.value)" class="form-select rounded-pill" style="width: 150px;">
                                 <option value="">Todos los grupos</option>
                                 @foreach($grupos as $grupo)
-                                    <option value="{{ $grupo->nombre }}">{{ $grupo->nombre }}</option>
+                                    <option value="{{ strtolower($grupo->nombre) }}">{{ $grupo->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -198,11 +156,12 @@
                 
                 <div class="card-body p-0">
                     <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
-                        <table class="table table-hover align-middle mb-0" id="alumnosTable" style="min-width: 1200px;">
-                            <thead class="bg-light sticky-top">
+                        <table class="table align-middle mb-0 custom-table" id="alumnosTable">
+                            <thead class="custom-thead sticky-top">
                                 <tr class="border-0">
                                     <th class="px-4 py-3 border-0" style="min-width: 200px;"><i class="bi bi-person me-1"></i> Nombre</th>
                                     <th class="py-3 border-0" style="min-width: 120px;"><i class="bi bi-qr-code me-1"></i> Matrícula</th>
+                                    <th class="py-3 border-0 text-center" style="min-width: 110px;"><i class="bi bi-people me-1"></i> Grupo</th>
                                     <th class="py-3 border-0" style="min-width: 100px;"><i class="bi bi-book me-1"></i> Carrera</th>
                                     <th class="py-3 border-0 text-center" style="min-width: 150px;"><i class="bi bi-calendar me-1"></i> Cuatrimestre</th>
                                     <th class="py-3 border-0 text-center" style="min-width: 110px;"><i class="bi bi-people me-1"></i> Grupo</th>
@@ -216,7 +175,7 @@
                                 <tr class="border-bottom" 
                                     data-nombre="{{ strtolower($alumno->user->name ?? '') }}"
                                     data-matricula="{{ $alumno->matricula ?? '' }}"
-                                    data-grupo="{{ $alumno->grupo->nombre ?? '' }}">
+                                    data-grupo="{{ strtolower($alumno->grupo->nombre ?? '') }}">
                                     <td class="px-4 py-3">
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="avatar-circle bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; flex-shrink: 0;">
@@ -226,6 +185,17 @@
                                         </div>
                                       </td>
                                     <td class="py-3"><code class="text-nowrap">{{ $alumno->matricula }}</code></td>
+                                    <td class="py-3 text-center">
+                                        @if($alumno->grupo)
+                                            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 text-nowrap">
+                                                <i class="bi bi-people-fill me-1"></i>{{ $alumno->grupo->nombre }}
+                                            </span>
+                                        @else
+                                            <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 py-2">
+                                                Sin grupo
+                                            </span>
+                                        @endif
+                                    </td>
                                     <td class="py-3">{{ $alumno->carrera }}</td>
                                     <td class="py-3 text-center">
                                         <span class="badge bg-light text-dark rounded-pill px-3 py-2">
@@ -304,101 +274,190 @@
 </div>
 
 <style>
-    .hover-primary:hover {
-        color: #3b82f6 !important;
+    body {
+        background: #f8fafc;
     }
-    
+
+    .card {
+        border-radius: 16px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        transition: all 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
     .table tbody tr {
         transition: background-color 0.2s ease;
     }
-    
+
     .table tbody tr:hover {
-        background-color: #f8fafc;
+        background-color: #f1f5f9;
     }
-    
+
     .avatar-circle {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
         width: 32px;
         height: 32px;
         border-radius: 50%;
+        background: #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    
-    .transition {
-        transition: all 0.3s ease;
-    }
-    
-    .hover-shadow:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
-    }
-    
+
     .badge {
         font-weight: 500;
     }
-    
-    .sticky-top {
-        position: sticky;
-        top: 0;
-        z-index: 10;
+
+    .form-control,
+    .form-select {
+        border-radius: 999px;
     }
-    
-    /* Evitar que el texto se rompa */
+
+    .form-control:focus,
+    .form-select:focus {
+        box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+        border-color: #3b82f6;
+    }
+
+    .btn {
+        transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+
     .text-nowrap {
         white-space: nowrap;
     }
-    
-    /* Dark mode styles */
+
+    /* ===== Dark mode mejorado ===== */
     .dark-mode {
-        background-color: #0f172a !important;
+        background-color: #0b1220 !important;
         color: #e2e8f0 !important;
     }
-    
+
+    .dark-mode .container-fluid {
+        background-color: #0b1220;
+    }
+
     .dark-mode .card {
         background-color: #1e293b !important;
-        color: #e2e8f0 !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
-    
-    .dark-mode .card-header {
-        background-color: #1e293b !important;
-        border-color: #334155 !important;
+
+    .dark-mode .card-header,
+    .dark-mode .card-footer {
+        background-color: transparent !important;
     }
-    
+
     .dark-mode .table {
         color: #e2e8f0;
     }
-    
-    .dark-mode .table tbody tr:hover {
+
+    .dark-mode .custom-table tbody tr {
+        background-color: #1e293b;
+    }
+
+    .dark-mode .custom-table tbody tr:hover {
         background-color: #334155;
     }
-    
-    .dark-mode .badge.bg-light {
-        background-color: #334155 !important;
-        color: #e2e8f0 !important;
+
+    .dark-mode .custom-thead th {
+        color: #94a3b8;
     }
-    
-    .dark-mode .form-control, 
+
+    .dark-mode .form-control,
     .dark-mode .form-select {
         background-color: #1e293b;
         color: #e2e8f0;
         border-color: #334155;
     }
-    
-    .dark-mode .form-control::placeholder {
-        color: #94a3b8;
-    }
-    
+
     .dark-mode .input-group-text {
         background-color: #1e293b;
         border-color: #334155;
-        color: #e2e8f0;
+        color: #94a3b8;
     }
+
+    .dark-mode .text-muted {
+        color: #94a3b8 !important;
+    }
+
+    .dark-mode .badge.bg-light {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+    }
+
+    .dark-mode .btn-light {
+        background-color: #1e293b;
+        color: #e2e8f0;
+        border: 1px solid #334155;
+    }
+/* ===== Tabla estilo moderno limpio ===== */
+.custom-table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.custom-table tbody tr {
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border-radius: 12px;
+}
+
+.custom-table tbody td {
+    border: none !important;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.custom-table tbody tr td:first-child {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.custom-table tbody tr td:last-child {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.custom-thead {
+    background: transparent;
+}
+
+.custom-thead th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    border: none !important;
+}
+
+.custom-table tbody tr:hover {
+    background: #f8fafc;
+    transform: translateY(-1px);
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+function filtrarGrupo(grupo) {
+    let url = new URL(window.location.href);
+
+    if (grupo) {
+        url.searchParams.set('grupo', grupo);
+    } else {
+        url.searchParams.delete('grupo');
+    }
+
+    window.location.href = url.toString();
+}
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -474,35 +533,87 @@ document.addEventListener('DOMContentLoaded', function() {
     const table = document.getElementById('alumnosTable');
     
     function filterTable() {
-        if (!table) return;
-        
-        const searchTerm = buscador ? buscador.value.toLowerCase().trim() : '';
-        const groupFilter = filterGroupTable ? filterGroupTable.value : '';
-        
-        const tbody = table.querySelector('tbody');
-        if (!tbody) return;
-        
-        const rows = tbody.querySelectorAll('tr');
-        
-        rows.forEach(row => {
-            const nombre = row.getAttribute('data-nombre') || '';
-            const matricula = row.getAttribute('data-matricula') || '';
-            const grupo = row.getAttribute('data-grupo') || '';
-            
-            const matchesSearch = searchTerm === '' || nombre.includes(searchTerm) || matricula.includes(searchTerm);
-            const matchesGroup = groupFilter === '' || grupo === groupFilter;
-            
-            row.style.display = matchesSearch && matchesGroup ? '' : 'none';
-        });
-    }
+    if (!table) return;
     
+    const searchTerm = buscador ? buscador.value.toLowerCase().trim() : '';
+    const groupFilter = filterGroupTable ? filterGroupTable.value.toLowerCase().trim() : '';
+    
+    const tbody = table.querySelector('tbody');
+    if (!tbody) return;
+    
+    const rows = tbody.querySelectorAll('tr');
+    let visibleCount = 0;
+    
+    rows.forEach(row => {
+        const nombre = (row.getAttribute('data-nombre') || '').toLowerCase();
+        const matricula = (row.getAttribute('data-matricula') || '').toLowerCase();
+        let grupo = (row.getAttribute('data-grupo') || '').toLowerCase().trim();
+        
+        // Limpiar el nombre del grupo para comparación (eliminar espacios, guiones)
+        const grupoLimpio = grupo.replace(/[\s-]/g, '');
+        const filterLimpio = groupFilter.replace(/[\s-]/g, '');
+        
+        // Búsqueda por nombre o matrícula
+        const matchesSearch = searchTerm === '' || 
+                             nombre.includes(searchTerm) || 
+                             matricula.includes(searchTerm);
+        
+        // Comparación más flexible para el grupo
+        let matchesGroup = false;
+        if (groupFilter === '') {
+            matchesGroup = true;
+        } else {
+            // Comparación exacta
+            if (grupo === groupFilter) {
+                matchesGroup = true;
+            }
+            // Comparación sin espacios/guiones
+            else if (grupoLimpio === filterLimpio) {
+                matchesGroup = true;
+            }
+            // Si el grupo contiene el filtro (para casos como "IDGS81" contiene "idgs")
+            else if (grupo.includes(filterLimpio) || filterLimpio.includes(grupo)) {
+                matchesGroup = true;
+            }
+            // Comparación numérica (si el grupo es solo números)
+            else if (!isNaN(groupFilter) && grupo.includes(groupFilter)) {
+                matchesGroup = true;
+            }
+        }
+        
+        const shouldShow = matchesSearch && matchesGroup;
+        row.style.display = shouldShow ? '' : 'none';
+        if (shouldShow) visibleCount++;
+    });
+    
+    // Opcional: Mostrar mensaje si no hay resultados
+    const tbodyHtml = tbody.innerHTML;
+    if (visibleCount === 0 && !tbody.querySelector('.no-results-row')) {
+        const noResultsRow = document.createElement('tr');
+        noResultsRow.className = 'no-results-row';
+        const colCount = document.querySelector('#alumnosTable thead tr')?.children.length || 8;
+        noResultsRow.innerHTML = `<td colspan="${colCount}" class="text-center py-5 text-muted">
+            <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+            No se encontraron alumnos con los filtros aplicados
+        </td>`;
+        tbody.appendChild(noResultsRow);
+    } else if (visibleCount > 0) {
+        const noResultsRow = tbody.querySelector('.no-results-row');
+        if (noResultsRow) noResultsRow.remove();
+    }
+}
+
+    // Activar filtros
     if (buscador) {
-        buscador.addEventListener('keyup', filterTable);
+        buscador.addEventListener('input', filterTable);
     }
-    
+
     if (filterGroupTable) {
         filterGroupTable.addEventListener('change', filterTable);
     }
+
+    // Ejecutar al cargar
+    filterTable();
     
     // Confirmación de eliminación
     const deleteButtons = document.querySelectorAll('.btn-delete');
@@ -554,9 +665,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (activePoints.length > 0) {
                 const index = activePoints[0].index;
                 const grupoSeleccionado = data.labels[index];
-                
+
                 if (filterGroupTable) {
-                    filterGroupTable.value = grupoSeleccionado;
+                    filterGroupTable.value = grupoSeleccionado.toLowerCase();
                     filterTable();
                     mostrarToast(`Filtrado por grupo: ${grupoSeleccionado}`);
                 }

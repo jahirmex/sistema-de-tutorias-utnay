@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-        return match ($user->rol) {
+        return match ($user->role) {
             'alumno' => redirect()->route('alumno.dashboard'),
             'tutor' => redirect()->route('tutor.dashboard'),
             'coordinador' => redirect()->route('coordinador.dashboard'),
