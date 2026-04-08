@@ -155,15 +155,17 @@ php artisan serve
 
 ```
 Alumno:
-alumno@test.com
+jahir@utnay.edu.mx
 12345678
 
 Tutor:
-tutor@test.com
+tovar@utnay.edu.mx
+12345678
+silvia@utnay.edu.mx
 12345678
 
 Coordinador:
-coordinador@test.com
+coordinador@utnay.edu.mx
 12345678
 ```
 
