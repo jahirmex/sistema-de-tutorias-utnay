@@ -36,7 +36,7 @@
                                 </div>
                                 <div>
                                     <label class="text-muted small text-uppercase fw-semibold">Fecha</label>
-                                    <p class="fw-semibold mb-0">{{ \Carbon\Carbon::parse($tutoria->fecha)->format('d/m/Y') }}</p>
+                                    <p class="fw-semibold mb-0">{{ \Carbon\Carbon::parse($tutoria->fecha)->translatedFormat('j \d\e F, Y') }}</p>
                                     <small class="text-muted">{{ \Carbon\Carbon::parse($tutoria->fecha)->format('l') }}</small>
                                 </div>
                             </div>
@@ -303,10 +303,13 @@ document.addEventListener('DOMContentLoaded', function() {
     @if(session('success'))
         Swal.fire({
             icon: 'success',
-            title: 'Éxito',
+            title: '¡Listo!',
             text: '{{ session('success') }}',
-            confirmButtonColor: '#1f7a5c',
-            timer: 3000
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            toast: true,
+            position: 'top-end'
         });
     @endif
     

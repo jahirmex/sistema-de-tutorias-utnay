@@ -135,14 +135,29 @@ class AlumnoController extends Controller
 
 
         //vista alumno tutorias
-         public function dashboard()
+        public function dashboard()
         {
             $alumno = \App\Models\Alumno::with(['tutorias.tutor.user', 'user', 'grupo'])
                 ->where('user_id', auth()->id())
                 ->firstOrFail();
 
-            return view('alumno.dashboard', compact('alumno'));
+            // 🔥 filtrar tutorías próximas correctamente
+            $proximasTutorias = $alumno->tutorias
+                ->filter(function ($t) {
+                    return \Carbon\Carbon::parse($t->fecha)->isFuture();
+                })
+                ->sortBy('fecha');
+
+            return view('alumno.dashboard', compact('alumno', 'proximasTutorias'));
         }
+
+            public function verTutoria($id)
+            {
+                $tutoria = \App\Models\Tutoria::with(['tutor.user', 'alumno.user'])
+                    ->findOrFail($id);
+
+                return view('alumno.tutoria-detalle', compact('tutoria'));
+            }
     
  }
 

@@ -134,9 +134,6 @@ Route::middleware(['auth'])->group(function () {
     //mistutorias - alumno
     Route::get('/alumno/tutoria/{id}', [AlumnoController::class, 'verTutoria']);
 
-    // Completar tutoría - tutor
-    Route::post('/tutoria/{id}/completar', [TutoriaController::class, 'completar'])
-        ->name('tutoria.completar');
 
     // Rutas para el panel del tutor (autenticado)
     Route::middleware(['auth','role:tutor'])->prefix('tutor')->name('tutor.')->group(function () {
@@ -162,3 +159,17 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/tutoria/{id}/cancelar', [TutorController::class, 'cancelarTutoria'])->name('tutoria.cancelar');
 
     });
+
+    Route::middleware(['auth','role:alumno'])->group(function () {
+    Route::post('/alumno/tutorias', [TutoriaController::class, 'store'])
+        ->name('alumno.tutorias.store');
+    });
+
+    Route::get('/alumno/tutorias', [TutoriaController::class, 'index'])
+        ->name('alumno.tutorias.index');
+
+    Route::get('/tutorias/{id}', [TutoriaController::class, 'show'])
+    ->name('tutorias.show');
+
+    Route::post('/tutorias/{id}/confirmar', [TutoriaController::class, 'confirmar'])
+    ->name('tutorias.confirmar');

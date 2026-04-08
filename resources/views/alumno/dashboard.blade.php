@@ -120,7 +120,7 @@
 
     <!-- Próximas tutorías (pendientes) -->
     @php
-        $proximasTutorias = $alumno->tutorias->where('estado', 'pendiente')->where('fecha', '>=', now())->sortBy('fecha');
+        $proximasTutorias = $alumno->tutorias->where('estado', 'pendiente')->filter(function ($t) {return \Carbon\Carbon::parse($t->fecha)->isFuture();})->sortBy('fecha');
     @endphp
     
     @if($proximasTutorias->count() > 0)

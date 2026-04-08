@@ -36,6 +36,7 @@
         </div>
     @else
         @foreach($alumno->tutorias as $tutoria)
+        <a href="{{ route('tutorias.show', $tutoria->id) }}" class="text-decoration-none text-dark">
             <div class="card mb-3 shadow-sm">
                 <div class="card-body">
                     <h5 class="fw-semibold text-dark">{{ $tutoria->tema }}</h5>
@@ -52,6 +53,7 @@
                     </div>
                 </div>
             </div>
+        </a>
         @endforeach
     @endif
 
