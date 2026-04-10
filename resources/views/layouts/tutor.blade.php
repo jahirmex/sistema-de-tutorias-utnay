@@ -295,7 +295,7 @@
                 </a>
 
                 <a href="{{ route('tutor.horario') }}" class="{{ request()->routeIs('tutor.horario') ? 'active' : '' }}">
-                    <i class="bi bi-clock"></i> Mi Horario
+                    <i class="bi bi-clock"></i> Horarios
                 </a>
             </div>
 

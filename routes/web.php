@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Tutor;
 use App\Http\Controllers\TutorAlumnoController;
 use App\Http\Controllers\TutoriaController;
+use App\Http\Controllers\HorarioController;
 
 
 Route::get('/', function () {
@@ -173,3 +174,19 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/tutorias/{id}/confirmar', [TutoriaController::class, 'confirmar'])
     ->name('tutorias.confirmar');
+
+    Route::get('/alumno/mi-tutor', [AlumnoController::class, 'miTutor'])
+    ->name('alumno.mi-tutor');
+
+    Route::get('/tutor/horario', [TutorController::class, 'horario'])
+    ->name('tutor.horario');
+
+    //Editar horario - tutor
+    Route::middleware(['auth'])->group(function () {
+
+    Route::get('/coordinador/horarios', [HorarioController::class, 'index'])->name('horarios.index');
+    Route::post('/coordinador/horarios', [HorarioController::class, 'store'])->name('horarios.store');
+    Route::put('/coordinador/horarios/{id}', [HorarioController::class, 'update'])->name('horarios.update');
+    Route::delete('/coordinador/horarios/{id}', [HorarioController::class, 'destroy'])->name('horarios.destroy');
+
+});

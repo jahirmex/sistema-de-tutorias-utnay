@@ -283,6 +283,9 @@
                 <a href="/coordinador/tutores" class="{{ request()->is('coordinador/tutores') ? 'active' : '' }}">
                     <i class="bi bi-person-badge"></i> Tutores
                 </a>
+                <a href="/coordinador/horarios" class="{{ request()->is('coordinador/horarios') ? 'active' : '' }}">
+                    <i class="bi bi-calendar-week"></i> Horarios
+                </a>
             </div>
 
             <div class="sidebar-footer">
@@ -351,6 +354,10 @@
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Asegurar que Bootstrap esté disponible globalmente
+    window.bootstrap = bootstrap;
+</script>
 
 <script>
 function confirmarEliminar(e, button) {

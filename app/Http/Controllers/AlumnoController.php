@@ -158,6 +158,18 @@ class AlumnoController extends Controller
 
                 return view('alumno.tutoria-detalle', compact('tutoria'));
             }
+
+            public function miTutor()
+            {
+                $alumno = \App\Models\Alumno::with('grupo.tutor.user')
+                    ->where('user_id', auth()->id())
+                    ->first();
+
+                $tutor = $alumno->grupo->tutor ?? null;
+
+                return view('alumno.mi-tutor', compact('tutor'));
+            }
+
     
  }
 

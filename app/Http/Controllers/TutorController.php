@@ -322,15 +322,20 @@ public function tutorias(Request $request)
     /**
      * Mi horario de tutorías
      */
-    public function horario()
-    {
-        $tutor = Tutor::where('user_id', Auth::id())->firstOrFail();
-        
-        // Aquí puedes obtener el horario del tutor de donde lo tengas almacenado
-        $horario = $tutor->horario ?? null;
-        
-        return view('tutor.horario', compact('tutor', 'horario'));
-    }
+        public function horario()
+        {
+            $tutor = \App\Models\Tutor::with('grupos')
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
+
+            // Obtener nombres de los grupos
+            $grupos = $tutor->grupos->pluck('nombre');
+
+            // Obtener horarios de esos grupos
+            $horarios = \App\Models\Horario::whereIn('grupo', $grupos)->get();
+            
+            return view('tutor.horario', compact('tutor', 'grupos', 'horarios'));
+        }
 
     /**
      * Perfil del tutor

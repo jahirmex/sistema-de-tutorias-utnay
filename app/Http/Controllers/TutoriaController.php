@@ -19,13 +19,21 @@ class TutoriaController extends Controller
         ->where('user_id', auth()->id())
         ->first();
 
-    Tutoria::create([
+    $tutoria = Tutoria::create([
         'tema' => $request->tema,
         'descripcion' => $request->descripcion,
         'fecha' => $request->fecha,
         'alumno_id' => $alumno->id,
         'tutor_id' => $alumno->grupo->tutor->id ?? null,
         'estado' => 'pendiente',
+    ]);
+
+    // 🔥 Log de creación de tutoría
+    \Log::info('Tutoría creada', [
+        'tutoria_id' => $tutoria->id,
+        'alumno_id' => $alumno->id,
+        'tutor_id' => $tutoria->tutor_id,
+        'tema' => $tutoria->tema
     ]);
 
     return redirect()->route('alumno.dashboard')
@@ -38,6 +46,12 @@ class TutoriaController extends Controller
 
         $tutoria->estado = \App\Models\Tutoria::ESTADO_COMPLETADA;
         $tutoria->save();
+
+        // 🔥 Log de tutoría completada
+        \Log::info('Tutoría completada', [
+            'tutoria_id' => $tutoria->id,
+            'tutor_id' => auth()->id()
+        ]);
 
         return back()->with('success', 'Tutoría completada correctamente');
     }
