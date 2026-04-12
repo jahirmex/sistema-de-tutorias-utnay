@@ -11,9 +11,6 @@
             </h2>
             <p class="text-muted">Administra los alumnos, sus grupos y estadísticas académicas</p>
         </div>
-        <button onclick="toggleDarkMode()" id="darkModeBtn" class="btn btn-light rounded-pill px-3">
-            <i class="bi bi-moon-stars"></i> Modo oscuro
-        </button>
     </div>
 
     <!-- Gráfica de alumnos por grupo -->

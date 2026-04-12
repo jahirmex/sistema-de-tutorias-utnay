@@ -166,8 +166,9 @@ class AlumnoController extends Controller
                     ->first();
 
                 $tutor = $alumno->grupo->tutor ?? null;
+                $tutorias = $alumno->tutorias;
 
-                return view('alumno.mi-tutor', compact('tutor'));
+                return view('alumno.mi-tutor', compact('tutor', 'tutorias'));
             }
 
     

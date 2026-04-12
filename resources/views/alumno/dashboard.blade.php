@@ -281,19 +281,32 @@
     <!-- Modal para ver detalles de la tutoría -->
     <div class="modal fade" id="modalDetalleTutoria" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
-                <div class="modal-header bg-primary text-white border-0" style="border-radius: 20px 20px 0 0;">
-                    <h5 class="modal-title fw-bold">
-                        <i class="bi bi-info-circle-fill me-2"></i>Detalles de la tutoría
-                    </h5>
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
+
+                <!-- Header moderno -->
+                <div class="modal-header border-0" style="background: linear-gradient(135deg,#4f46e5,#6366f1); color:white;">
+                    <div>
+                        <h5 class="modal-title fw-bold mb-0">
+                            <i class="bi bi-calendar-check me-2"></i>Detalle de Tutoría
+                        </h5>
+                        <small class="opacity-75">Información completa de la sesión</small>
+                    </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
+
+                <!-- Body -->
                 <div class="modal-body p-4" id="modalDetalleContent">
                     <!-- Contenido dinámico -->
                 </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cerrar</button>
+
+                <!-- Footer -->
+                <div class="modal-footer border-0 d-flex justify-content-between">
+                    <small class="text-muted">Sistema de Tutorías</small>
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">
+                        Cerrar
+                    </button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -312,61 +325,69 @@ document.addEventListener('DOMContentLoaded', function() {
             const opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
             
             modalContent.innerHTML = `
-                <div class="mb-3">
-                    <h6 class="fw-bold text-primary mb-2">
-                        <i class="bi bi-book me-1"></i> Tema
-                    </h6>
-                    <p class="mb-3">${tutoriaData.tema || 'Sin tema'}</p>
-                    
-                    <h6 class="fw-bold text-primary mb-2">
-                        <i class="bi bi-calendar3 me-1"></i> Fecha
-                    </h6>
-                    <p class="mb-3">${fecha.toLocaleDateString('es-ES', opcionesFecha)}</p>
-                    
-                    <h6 class="fw-bold text-primary mb-2">
-                        <i class="bi bi-person me-1"></i> Tutor asignado
-                    </h6>
-                    <p class="mb-3">${tutoriaData.tutor?.user?.name || 'No asignado'}</p>
-                    
-                    ${tutoriaData.descripcion ? `
-                        <h6 class="fw-bold text-primary mb-2">
-                            <i class="bi bi-file-text me-1"></i> Descripción
-                        </h6>
-                        <p class="mb-3">${tutoriaData.descripcion}</p>
-                    ` : ''}
-                    
-                    ${tutoriaData.comentarios ? `
-                        <h6 class="fw-bold text-primary mb-2">
-                            <i class="bi bi-chat-dots me-1"></i> Comentarios
-                        </h6>
-                        <p class="mb-3">${tutoriaData.comentarios}</p>
-                    ` : ''}
-                    
-                    <div class="row mt-3">
-                        <div class="col-6">
-                            <h6 class="fw-bold text-primary mb-2">
-                                <i class="bi bi-hourglass-split me-1"></i> Duración
-                            </h6>
-                            <p>${tutoriaData.duracion_minutos || 60} minutos</p>
-                        </div>
-                        <div class="col-6">
-                            <h6 class="fw-bold text-primary mb-2">
-                                <i class="bi bi-star me-1"></i> Calificación
-                            </h6>
-                            ${tutoriaData.calificacion ? `
-                                <div class="text-warning mb-2">
-                                    ${Array(5).fill().map((_, i) => 
-                                        i < tutoriaData.calificacion ? 
-                                        '<i class="bi bi-star-fill"></i>' : 
-                                        '<i class="bi bi-star"></i>'
-                                    ).join('')}
-                                    <small class="text-muted ms-2">(${tutoriaData.calificacion}/5)</small>
-                                </div>
-                            ` : '<p class="text-muted">Pendiente de calificación</p>'}
-                        </div>
+
+    <div class="mb-3">
+
+        <div class="mb-4">
+            <h5 class="fw-bold text-primary mb-1">${tutoriaData.tema || 'Sin tema'}</h5>
+            <span class="badge ${tutoriaData.estado === 'completada' ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning'}">
+                ${tutoriaData.estado}
+            </span>
+        </div>
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <div class="p-3 rounded-4 bg-light">
+                    <small class="text-muted">📅 Fecha</small>
+                    <div class="fw-semibold">${fecha.toLocaleDateString('es-ES', opcionesFecha)}</div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="p-3 rounded-4 bg-light">
+                    <small class="text-muted">👨‍🏫 Tutor</small>
+                    <div class="fw-semibold">${tutoriaData.tutor?.user?.name || 'No asignado'}</div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="p-3 rounded-4 bg-light">
+                    <small class="text-muted">⏱ Duración</small>
+                    <div class="fw-semibold">${tutoriaData.duracion_minutos || 60} min</div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="p-3 rounded-4 bg-light">
+                    <small class="text-muted">⭐ Calificación</small>
+                    <div class="text-warning">
+                        ${tutoriaData.calificacion ? Array(5).fill().map((_, i) => 
+                            i < tutoriaData.calificacion ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>'
+                        ).join('') : '<span class="text-muted">Pendiente</span>'}
                     </div>
                 </div>
-            `;
+            </div>
+
+        </div>
+
+        ${tutoriaData.descripcion ? `
+            <div class="mt-4">
+                <h6 class="fw-semibold text-muted">📄 Descripción</h6>
+                <div class="p-3 bg-light rounded-4">${tutoriaData.descripcion}</div>
+            </div>
+        ` : ''}
+
+        ${tutoriaData.comentarios ? `
+            <div class="mt-3">
+                <h6 class="fw-semibold text-muted">💬 Comentarios</h6>
+                <div class="p-3 bg-light rounded-4">${tutoriaData.comentarios}</div>
+            </div>
+        ` : ''}
+
+    </div>
+
+`;
         });
     });
 });

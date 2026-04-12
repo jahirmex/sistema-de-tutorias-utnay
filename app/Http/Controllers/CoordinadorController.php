@@ -8,6 +8,7 @@ use App\Models\Alumno;
 use App\Models\Tutor;
 use App\Models\Grupo;
 use App\Models\Tutoria;
+use App\Models\Horario;
 
 class CoordinadorController extends Controller
 {
@@ -100,4 +101,24 @@ class CoordinadorController extends Controller
         'alumnosPorGrupo'
     ));
 }
+
+public function tutorias()
+    {
+        $tutorias = Tutoria::with(['alumno.user', 'tutor.user'])
+            ->latest()
+            ->get();
+
+        return view('coordinador.tutorias', compact('tutorias'));
+    }
+
+    public function horarios()
+    {
+        // Obtener todos los horarios
+        $horarios = Horario::all();
+
+        // Agrupar por grupo
+        $horariosPorGrupo = $horarios->groupBy('grupo');
+
+        return view('coordinador.horarios', compact('horarios', 'horariosPorGrupo'));
+    }
 }

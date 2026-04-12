@@ -15,9 +15,6 @@
             <button onclick="window.print()" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">
                 <i class="bi bi-printer me-1"></i> Imprimir
             </button>
-            <button onclick="toggleDarkMode()" id="darkModeBtn" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">
-                <i class="bi bi-moon-stars me-1"></i> Modo oscuro
-            </button>
         </div>
     </div>
 
@@ -240,6 +237,71 @@
         </div>
     </div>
 </div>
+
+    <!-- Vista tipo calendario por grupo -->
+    <div class="row mt-4">
+        <div class="col-12">
+            @php
+                $horariosPorGrupo = $horarios->groupBy('grupo');
+            @endphp
+
+            @foreach($horariosPorGrupo as $grupo => $items)
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="fw-bold mb-0">
+                            <i class="bi bi-calendar3 me-2 text-primary"></i>
+                            Horario {{ $grupo }}
+                        </h5>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Hora</th>
+                                        <th>Lunes</th>
+                                        <th>Martes</th>
+                                        <th>Miércoles</th>
+                                        <th>Jueves</th>
+                                        <th>Viernes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $horas = $items->pluck('hora')->unique()->sort();
+                                    @endphp
+
+                                    @foreach($horas as $hora)
+                                        <tr>
+                                            <td class="fw-semibold">{{ $hora }}</td>
+
+                                            @foreach(['lunes','martes','miercoles','jueves','viernes'] as $dia)
+                                                @php
+                                                    $clase = $items->where('hora', $hora)->where('dia', $dia)->first();
+                                                @endphp
+
+                                                <td>
+                                                    @if($clase)
+                                                        <div class="fw-semibold text-primary">{{ $clase->materia }}</div>
+                                                        <small class="text-muted">{{ $clase->docente }}</small><br>
+                                                        <small class="text-secondary">{{ $clase->aula }}</small>
+                                                    @else
+                                                        <span class="text-muted">—</span>
+                                                    @endif
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
 
 <!-- Modal Editar -->
 <div class="modal fade" id="editModal" tabindex="-1" data-bs-backdrop="static">

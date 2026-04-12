@@ -283,6 +283,9 @@
                 <a href="/coordinador/tutores" class="{{ request()->is('coordinador/tutores') ? 'active' : '' }}">
                     <i class="bi bi-person-badge"></i> Tutores
                 </a>
+                <a href="/coordinador/tutorias" class="{{ request()->is('coordinador/tutorias') ? 'active' : '' }}">
+                    <i class="bi bi-journal-text"></i> Tutorías
+                </a>
                 <a href="/coordinador/horarios" class="{{ request()->is('coordinador/horarios') ? 'active' : '' }}">
                     <i class="bi bi-calendar-week"></i> Horarios
                 </a>

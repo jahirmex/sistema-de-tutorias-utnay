@@ -189,4 +189,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/coordinador/horarios/{id}', [HorarioController::class, 'update'])->name('horarios.update');
     Route::delete('/coordinador/horarios/{id}', [HorarioController::class, 'destroy'])->name('horarios.destroy');
 
+    Route::get('/coordinador/tutorias', [CoordinadorController::class, 'tutorias']);
+
 });

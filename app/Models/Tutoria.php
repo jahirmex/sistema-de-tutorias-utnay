@@ -29,7 +29,7 @@ class Tutoria extends Model
     // Relación con el tutor
     public function tutor()
     {
-        return $this->belongsTo(Tutor::class);
+        return $this->belongsTo(\App\Models\Tutor::class, 'tutor_id');
     }
 
     // Relación con el alumno (AGREGAR ESTA RELACIÓN)
@@ -37,4 +37,5 @@ class Tutoria extends Model
     {
         return $this->belongsTo(Alumno::class, 'alumno_id');
     }
+
 }
