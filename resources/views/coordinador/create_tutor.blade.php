@@ -272,4 +272,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+@if(session('success'))
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Éxito',
+    text: '{{ session('success') }}',
+    timer: 2000,
+    showConfirmButton: false
+});
+</script>
+@endif
+
+@if(session('error'))
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: '{{ session('error') }}'
+});
+</script>
+@endif
+
 @endsection

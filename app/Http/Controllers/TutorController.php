@@ -25,25 +25,34 @@ class TutorController extends Controller
 
     public function store(Request $request)
     {
-        $user = User::create([
-            'name' => $request->nombre,
-            'email' => $request->correo,
-            'password' => bcrypt('12345678'),
-            'role' => 'tutor',
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'correo' => 'required|email|unique:users,email',
+            'area' => 'required|string|max:255',
         ]);
+        try {
+            $user = User::create([
+                'name' => $request->nombre,
+                'email' => $request->correo,
+                'password' => bcrypt('12345678'),
+                'role' => 'tutor',
+            ]);
 
-        $tutor = Tutor::create([
-            'user_id' => $user->id,
-            'area' => $request->area,
-        ]);
+            $tutor = Tutor::create([
+                'user_id' => $user->id,
+                'area' => $request->area,
+            ]);
 
-        // asignar grupos seleccionados
-        if ($request->grupos) {
-            Grupo::whereIn('id', $request->grupos)
-                ->update(['tutor_id' => $tutor->id]);
+            if ($request->grupos) {
+                Grupo::whereIn('id', $request->grupos)
+                    ->update(['tutor_id' => $tutor->id]);
+            }
+
+            return redirect('/coordinador/tutores')->with('success', 'Tutor creado correctamente');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'El correo ya está registrado o ocurrió un error');
         }
-
-        return redirect('/coordinador/tutores');
     }
 
     public function edit($id)
