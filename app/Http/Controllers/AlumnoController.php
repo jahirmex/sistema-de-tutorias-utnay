@@ -90,18 +90,19 @@ class AlumnoController extends Controller
             return view('coordinador.edit_alumno', compact('alumno','grupos'));
         }
 
-                public function update(Request $request, $id)
-        {
-            $alumno = Alumno::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $alumno = Alumno::findOrFail($id);
 
-            $request->validate([
-                'nombre' => 'required',
-                'correo' => 'required|email',
-                'matricula' => 'required',
-                'carrera' => 'required',
-                'cuatrimestre' => 'required|integer'
-            ]);
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'correo' => 'required|email|unique:users,email,' . $alumno->user->id,
+            'matricula' => 'required|string|max:50',
+            'carrera' => 'required|string|max:255',
+            'cuatrimestre' => 'required|integer'
+        ]);
 
+        try {
             // actualizar usuario
             $alumno->user->update([
                 'name' => $request->nombre,
@@ -115,8 +116,12 @@ class AlumnoController extends Controller
                 'cuatrimestre' => $request->cuatrimestre,
             ]);
 
-            return redirect('/coordinador/alumnos')->with('success', 'Alumno actualizado');
+            return redirect('/coordinador/alumnos')->with('success', 'Alumno actualizado correctamente');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'El correo ya está registrado 😅');
         }
+    }
 
                 public function destroy($id)
         {
