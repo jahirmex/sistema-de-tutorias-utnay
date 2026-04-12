@@ -11,6 +11,8 @@
         "laravel/tinker": "^3.0",
         "maatwebsite/excel": "^3.1",
         "symfony/clock": "^7",
+        "symfony/css-selector": "^7",
+        "symfony/event-dispatcher": "^7",
         "symfony/string": "^7",
         "symfony/translation": "^7"
     },

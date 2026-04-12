@@ -24,6 +24,12 @@
 @endsection
 
 @section('content')
+    <div class="mobile-topbar d-md-none d-flex align-items-center justify-content-between mb-3">
+        <div class="fw-bold">Tutorías</div>
+        <a href="{{ route('alumno.solicitar-tutoria') }}" class="btn btn-sm btn-primary rounded-pill">
+            <i class="bi bi-plus"></i>
+        </a>
+    </div>
     <!-- Header de bienvenida -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -277,6 +283,144 @@
     cursor: pointer;
 }
 </style>
+
+<style>
+/* MOBILE FIRST IMPROVEMENTS */
+@media (max-width: 768px) {
+
+    /* Hide sidebar */
+    .sidebar {
+        display: none !important;
+    }
+
+    /* Make header stack */
+    .d-flex.justify-content-between.align-items-center.mb-4 {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 10px;
+    }
+
+    /* Reduce title size */
+    h2.fw-bold {
+        font-size: 1.5rem;
+    }
+
+    /* Cards full width */
+    .row.g-4 > div {
+        width: 100%;
+    }
+
+    /* Table spacing */
+    table th, table td {
+        font-size: 0.8rem;
+        padding: 8px !important;
+    }
+
+    /* Reduce modal padding */
+    .modal-body {
+        padding: 1rem !important;
+    }
+
+    /* Convert table to cards */
+    .table-responsive table,
+    .table-responsive thead,
+    .table-responsive tbody,
+    .table-responsive th,
+    .table-responsive td,
+    .table-responsive tr {
+        display: block;
+        width: 100%;
+    }
+
+    .table-responsive thead {
+        display: none;
+    }
+
+    .table-responsive tr {
+        background: #fff;
+        border-radius: 16px;
+        margin: 10px 0;
+        padding: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .table-responsive td {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0 !important;
+        border: none !important;
+    }
+
+    /* Floating action button */
+    .fab {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 999;
+    }
+
+    /* Bottom navigation */
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: #fff;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 999;
+    }
+
+    .bottom-nav a {
+        text-decoration: none;
+        color: #6c757d;
+        font-size: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bottom-nav a.active {
+        color: #0d6efd;
+        font-weight: 600;
+    }
+
+    .bottom-nav i {
+        font-size: 1.2rem;
+    }
+
+    /* Add space so content is not hidden */
+    body {
+        padding-bottom: 70px;
+    }
+}
+</style>
+
+    <a href="{{ route('alumno.solicitar-tutoria') }}" class="btn btn-primary rounded-circle fab d-md-none" style="width:60px;height:60px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.2);">
+        <i class="bi bi-plus fs-4"></i>
+    </a>
+
+    <div class="bottom-nav d-md-none">
+        <a href="{{ route('alumno.dashboard') }}" class="active">
+            <i class="bi bi-house"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="{{ route('alumno.mis-tutorias') }}">
+            <i class="bi bi-calendar-check"></i>
+            <span>Tutorías</span>
+        </a>
+        <a href="{{ route('alumno.solicitar-tutoria') }}">
+            <i class="bi bi-plus-circle"></i>
+            <span>Solicitar</span>
+        </a>
+        <a href="{{ route('alumno.mi-tutor') }}">
+            <i class="bi bi-person"></i>
+            <span>Perfil</span>
+        </a>
+    </div>
 
     <!-- Modal para ver detalles de la tutoría -->
     <div class="modal fade" id="modalDetalleTutoria" tabindex="-1">
