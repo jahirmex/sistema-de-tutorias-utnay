@@ -63,34 +63,57 @@ class TutorController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $tutor = Tutor::findOrFail($id);
+{
+    $tutor = Tutor::findOrFail($id);
 
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'correo' => 'required|email|unique:users,email,' . ($tutor->user->id ?? ''),
+        'area' => 'required|string|max:255',
+    ]);
+
+    if ($tutor->user) {
         $tutor->user->update([
             'name' => $request->nombre,
             'email' => $request->correo,
         ]);
-
-        $tutor->update([
-            'area' => $request->area,
+    } else {
+        $user = User::create([
+            'name' => $request->nombre,
+            'email' => $request->correo,
+            'password' => bcrypt('12345678'),
+            'role' => 'tutor'
         ]);
 
-        Grupo::where('tutor_id', $tutor->id)->update(['tutor_id' => null]);
-
-        if ($request->grupos) {
-            Grupo::whereIn('id', $request->grupos)
-                ->update(['tutor_id' => $tutor->id]);
-        }
-
-        return redirect('/coordinador/tutores');
+        $tutor->user_id = $user->id;
+        $tutor->save();
     }
+
+    $tutor->update([
+        'area' => $request->area,
+    ]);
+
+    Grupo::where('tutor_id', $tutor->id)->update(['tutor_id' => null]);
+
+    if ($request->grupos) {
+        Grupo::whereIn('id', $request->grupos)
+            ->update(['tutor_id' => $tutor->id]);
+    }
+
+    return redirect('/coordinador/tutores')->with('success', 'Tutor actualizado correctamente');
+}
 
     public function destroy($id)
     {
         $tutor = Tutor::findOrFail($id);
-        $tutor->user->delete();
 
-        return redirect('/coordinador/tutores');
+        if ($tutor->user) {
+            $tutor->user->delete();
+        }
+
+        $tutor->delete();
+
+        return redirect('/coordinador/tutores')->with('success', 'Tutor eliminado correctamente');
     }
 
     /**

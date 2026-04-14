@@ -174,10 +174,19 @@ document.addEventListener('DOMContentLoaded', () => {
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: {!! json_encode($labels ?? []) !!},
+                labels: {!! json_encode(array_values(array_unique(collect($labels ?? [])->toArray()))) !!},
                 datasets: [{
                     label: 'Alumnos',
-                    data: {!! json_encode($data ?? []) !!}
+                    data: {!! json_encode(
+                        collect($labels ?? [])
+                            ->mapToGroups(function($label, $index) use ($data) {
+                                return [$label => ($data[$index] ?? 0)];
+                            })
+                            ->map(function($items) {
+                                return array_sum($items->toArray());
+                            })
+                            ->values()
+                    ) !!}
                 }]
             }
         });

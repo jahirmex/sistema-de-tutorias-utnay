@@ -467,15 +467,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const data = {
         labels: [
-            @foreach($grupos as $grupo)
+            @foreach(collect($grupos)->unique('nombre') as $grupo)
                 "{{ $grupo->nombre }}",
             @endforeach
         ],
         datasets: [{
             label: 'Alumnos',
             data: [
-                @foreach($grupos as $grupo)
-                    {{ $alumnosPorGrupo[$grupo->id] ?? 0 }},
+                @foreach(collect($grupos)->unique('nombre') as $grupo)
+                    {{ collect($grupos)
+                        ->where('nombre', $grupo->nombre)
+                        ->sum(function($g) use ($alumnosPorGrupo) {
+                            return $alumnosPorGrupo[$g->id] ?? 0;
+                        }) }},
                 @endforeach
             ],
             backgroundColor: 'rgba(59, 130, 246, 0.5)',

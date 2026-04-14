@@ -149,9 +149,9 @@
                                     </div>
                                 </td>
                                 <td class="py-3">
-                                    <a href="mailto:{{ $tutor->user->email }}" class="text-decoration-none text-dark hover-primary">
+                                    <a href="mailto:{{ $tutor->user->email ?? '' }}" class="text-decoration-none text-dark hover-primary">
                                         <i class="bi bi-envelope me-1 text-muted"></i>
-                                        {{ $tutor->user->email }}
+                                        {{ $tutor->user->email ?? 'Sin correo' }}
                                     </a>
                                 </td>
                                 <td class="py-3">
@@ -198,7 +198,7 @@
                                             @method('DELETE')
                                             <button type="button" 
                                                     class="btn btn-sm btn-outline-danger rounded-pill px-3 btn-delete"
-                                                    data-tutor="{{ $tutor->user->name }}"
+                                                    data-tutor="{{ $tutor->user->name ?? 'Sin nombre' }}"
                                                     data-bs-toggle="tooltip" 
                                                     title="Eliminar tutor">
                                                 <i class="bi bi-trash"></i>

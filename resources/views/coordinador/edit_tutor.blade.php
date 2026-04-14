@@ -9,7 +9,7 @@
     <div class="card border-0 shadow-sm rounded-4">
         <div class="card-body">
 
-            <form method="POST" action="/coordinador/tutores/{{ $tutor->id }}">
+            <form method="POST" action="{{ url('/coordinador/tutores/' . $tutor->id) }}">
                 @csrf
                 @method('PUT')
 
@@ -17,20 +17,29 @@
 
                     <div class="col-md-6">
                         <label class="form-label">Nombre completo</label>
-                        <input type="text" name="nombre" class="form-control"
-                            value="{{ $tutor->user->name }}">
+                        <input type="text" name="nombre" class="form-control" required
+                            value="{{ old('nombre', $tutor->user->name ?? '') }}">
+                        @error('nombre')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Correo</label>
-                        <input type="email" name="correo" class="form-control"
-                            value="{{ $tutor->user->email }}">
+                        <input type="email" name="correo" class="form-control" required
+                            value="{{ old('correo', $tutor->user->email ?? '') }}">
+                        @error('correo')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Área</label>
-                        <input type="text" name="area" class="form-control"
-                            value="{{ $tutor->area }}">
+                        <input type="text" name="area" class="form-control" required
+                            value="{{ old('area', $tutor->area) }}">
+                        @error('area')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="col-md-6">

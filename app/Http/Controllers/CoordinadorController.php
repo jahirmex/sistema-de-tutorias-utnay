@@ -81,7 +81,7 @@ class CoordinadorController extends Controller
         ->paginate(10)
         ->withQueryString();
 
-    $grupos = Grupo::all();
+   $grupos = Grupo::distinct()->get();
 
     // 🔥 ESTO ES LO QUE TE FALTABA
     $totalAlumnos = Alumno::count();
